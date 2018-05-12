@@ -25,7 +25,9 @@ document.getElementById('current-1').textContent = '0';
 document.querySelector('.dice').style.display='none'; //hide dice per default
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
+  $('.dice').removeClass('animated fadeOut');
   // add random number
+  
   var dice = Math.floor(Math.random() * 6) + 1;
 
   // display the result
@@ -33,6 +35,24 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
   diceDOM.style.display = 'block';
   diceDOM.src = 'img/dice-' + dice + '.png';
   // update current score if rolled number is not 1
+  if (dice > 1) {
+    //add currentScore
+    currentScore += dice;
+    document.getElementById('current-' + activePlayer).textContent = currentScore;
+  }
+    else {
+      //next player
+      activePlayer === 0 ? activePlayer = 1 : activePlayer =0;
+      currentScore = 0;
+
+      document.getElementById('current-0').textContent = 0;
+      document.getElementById('current-1').textContent = 0;
+
+      document.querySelector('.player-0-panel').classList.toggle('active');
+      document.querySelector('.player-1-panel').classList.toggle('active');
+      $('.dice').addClass('animated fadeOut');
+  }
+
 })
 
 

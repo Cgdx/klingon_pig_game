@@ -1,5 +1,5 @@
 # pig_game
-Custom Klingon Pig Game with Javascript
+Custom Klingon Pig Game with pure Javascript
 
 <b>Game Rules</b>
 - The game has 2 players, playing in rounds
