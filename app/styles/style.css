@@ -38,7 +38,22 @@
     padding: 100px;
 }
 
+.final-score {
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+top: 520px;
+color: #1a0a61;
+font-size: 18px;
+font-family: 'Space Mono', monospace;
+text-align: center;
+padding: 10px;
+width: 160px;
+text-transform: uppercase;
+}
 
+.final-score:focus {outline: none;
+}
 /**********************************************
 *** PLAYERS
 **********************************************/
@@ -155,4 +170,4 @@ margin-left: 10px;
 }
 
 .winner { background-color: #f7f7f7; }
-.winner .player-name { font-weight: 300; color: #EB4D4D; }
+.winner .player-name { font-weight: 900; color: #ffa800; font-family: 'Space Mono', monospace;}

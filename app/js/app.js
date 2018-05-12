@@ -6,28 +6,45 @@
 - The first player to reach 100 points on GLOBAL score wins the game*/
 
 
-//GLOBAL VARIABLES
-var globalScore, currentScore, activePlayer;
-
-globalScore = [0,0];
-currentScore = 0;
-activePlayer = 0;
+//GLOBAL SCOPE VARIABLES
+var globalScore, currentScore, activePlayer, gamePlaying;
 
 //GAME INIT
+gameInit();
+
+
+function gameInit() {
+  globalScore = [0,0];
+  currentScore = 0;
+  activePlayer = 0;
+  gamePlaying = true;
+
+document.querySelector('.dice').style.display='none'; //hide dice per default
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
 document.getElementById('current-0').textContent = '0';
 document.getElementById('current-1').textContent = '0';
+document.getElementById('name-0').textContent = 'Player 1';
+document.getElementById('name-1').textContent = 'Player 2';
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.add('active');
+document.querySelector('.player-1-panel').classList.remove('active');
 
+};
 
 
 //DICE ROLL
-document.querySelector('.dice').style.display='none'; //hide dice per default
+
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
+  if (gamePlaying) {
+
+
   $('.dice').removeClass('animated fadeOut');
   // add random number
-  
+
   var dice = Math.floor(Math.random() * 6) + 1;
 
   // display the result
@@ -41,20 +58,60 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     document.getElementById('current-' + activePlayer).textContent = currentScore;
   }
     else {
-      //next player
-      activePlayer === 0 ? activePlayer = 1 : activePlayer =0;
-      currentScore = 0;
-
-      document.getElementById('current-0').textContent = 0;
-      document.getElementById('current-1').textContent = 0;
-
-      document.querySelector('.player-0-panel').classList.toggle('active');
-      document.querySelector('.player-1-panel').classList.toggle('active');
-      $('.dice').addClass('animated fadeOut');
+//next player
+nextPlayer();
+  }
   }
 
-})
+});
 
+document.querySelector('.btn-hold').addEventListener('click', function() {
+
+  if (gamePlaying) {
+    //store the current score to global globalScore and add it to global score
+    globalScore[activePlayer] += currentScore;
+    document.getElementById('score-' + activePlayer).textContent = globalScore[activePlayer];
+
+
+    var finalScore = document.querySelector('.final-score').value;
+    var winningScore;
+    if (finalScore) {
+      winningScore = finalScore;
+    } else {
+      winningScore = 100;
+    }
+    //check winning condition
+    if (globalScore[activePlayer] >= winningScore) {
+      document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+      document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+      document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+      $('.dice').removeClass('animated fadeOut');
+      gamePlaying = false;
+    }
+    else {
+      //switch players
+      nextPlayer();
+    }
+  }
+
+});
+
+function nextPlayer() {
+
+  activePlayer === 0 ? activePlayer = 1 : activePlayer =0;
+  currentScore = 0;
+
+  document.getElementById('current-0').textContent = 0;
+  document.getElementById('current-1').textContent = 0;
+
+  document.querySelector('.player-0-panel').classList.toggle('active');
+  document.querySelector('.player-1-panel').classList.toggle('active');
+  $('.dice').addClass('animated fadeOut');
+
+};
+
+//new game INIT btn new
+document.querySelector('.btn-new').addEventListener('click',gameInit);
 
 
 // Particles JS
